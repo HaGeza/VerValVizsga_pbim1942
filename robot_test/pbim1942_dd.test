@@ -1,0 +1,31 @@
+*** Settings ***
+Library  Selenium2Library
+Library  String
+Test Template  Category Title Should Match
+
+
+*** Variables ***
+${CategoryURL}  https://petstore.octoperf.com/actions/Catalog.action?viewCategory=&categoryId=
+
+
+*** Keywords ***
+Open Website
+  Open Browser  https://petstore.octoperf.com/actions/Catalog.action  browser=chrome
+
+Category Title Should Match
+  [Arguments]  ${category}
+  Open Website
+  ${categoryUpper}=  Convert To Upper Case  ${category}
+  Click Element  xpath://a[contains(@href, '${categoryUpper}')]
+  ${title}=  Get Text  //h2
+  ${titleUpper}=  Convert To Upper Case  ${title}
+  Should Be Equal  ${categoryUpper}  ${titleUpper}
+  Close Browser
+
+
+*** Test Cases ***  Category
+Fish Should Match  Fish
+Dogs Should Match  Dogs
+Cats Should Match  Cats
+Reptiles Should Match  Reptiles
+Birds Should Match  Birds

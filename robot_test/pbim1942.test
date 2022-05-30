@@ -1,0 +1,82 @@
+*** Settings ***
+Library  Selenium2Library
+
+
+*** Variables ***
+${ID}          5672
+${Username}    KisLajos${ID}
+${Password}    hubepassword
+${First name}  Lajos
+${Last name}   Kis
+${Email}       kislajos${ID}@gmail.com
+${Phone}       0123456789
+${Address1}    Messze
+${Address2}    Innen
+${Place}       Luveta
+${Zip}         12345
+
+*** Keywords ***
+Open Website
+  Open Browser  https://petstore.octoperf.com/actions/Catalog.action  browser=chrome
+
+Sign In
+  Click Element  //a[contains(text(), 'Sign In')]
+  Input Text     //input[@name='username']  ${Username}
+  Input Text     //input[@name='password']  ${Password}
+  Click Element  //input[@name='signon']
+
+*** Test Cases ***
+Register new account
+  # Go to register page
+  Open Website
+  Click Element  //a[contains(text(), 'Sign In')]
+  Click Element  //a[contains(text(), 'Register Now!')]
+  # Fill in information
+  Input Text     //input[@name='username']           ${Username}
+  Input Text     //input[@name='password']           ${Password}
+  Input Text     //input[@name='repeatedPassword']   ${Password}
+  Input Text     //input[@name='account.firstName']  ${First name}
+  Input Text     //input[@name='account.lastName']   ${Last name}
+  Input Text     //input[@name='account.email']      ${Email}
+  Input Text     //input[@name='account.phone']      ${Phone}
+  Input Text     //input[@name='account.address1']   ${Address1}
+  Input Text     //input[@name='account.address2']   ${Address2}
+  Input Text     //input[@name='account.city']       ${Place}
+  Input Text     //input[@name='account.state']      ${Place}
+  Input Text     //input[@name='account.zip']        ${Zip}
+  Input Text     //input[@name='account.country']    ${Place}
+  Click Element  //input[@name='newAccount']
+  # Sign in with new account
+  Sign In
+  Element Should Contain  //div[@id='WelcomeContent']  Welcome ${First name}!
+  Close Browser
+
+Invalid Login
+  Open Website
+  Click Element  //a[contains(text(), 'Sign In')]
+  Input Text     //input[@name='username']  Invalid
+  Click Element  //input[@name='signon']
+  Element Should Contain  //ul[@class='messages']//li  Invalid username or password. Signon failed.
+  Close Browser
+
+Buy Two Fish
+  Open Website
+  Sign In
+  Click Element  //a[contains(@href, 'FISH')]
+  Click Element  //a[contains(text(), 'FI-SW-01')]
+  Click Element  //a[contains(text(), 'Add to Cart')][1]
+  Input Text     //input[@name='EST-1']  2
+  Click Element  //input[@name='updateCartQuantities']
+  Click Element  //a[contains(text(), 'Proceed to Checkout')]
+  Click Element  //input[@value='Continue']
+  Click Element  //a[contains(text(), 'Confirm')]
+  Element Should Contain  //ul[@class='messages']//li  Thank you, your order has been submitted.
+  Close Browser
+
+Search For Retriever
+  Open Website
+  Input Text  //input[@name='keyword']  retriever
+  Click Element  //input[@name='searchProducts']
+  Element Should Contain  //table//tbody//tr[2]//td[3]  Golden Retriever
+  Element Should Contain  //table//tbody//tr[3]//td[3]  Labrador Retriever
+  Close Browser
