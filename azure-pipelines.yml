@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: 'Robot_Test'
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-latest
 
   steps:
   - script: pip install robotframework
