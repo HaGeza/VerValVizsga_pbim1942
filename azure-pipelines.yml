@@ -22,6 +22,8 @@ jobs:
     displayName: 'Install Chromedriver'
 
   - script: |
+      pwd
+      ls
       cd robot_test
       robot *.test
     displayName: 'Run Robot Framework tests'
