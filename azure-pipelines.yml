@@ -1,0 +1,30 @@
+trigger:
+- master
+
+jobs:
+- job: 'Robot_Test'
+  pool:
+    vmImage: ubuntu-latest
+
+  steps:
+  - script: pip install robotframework
+    displayName: 'Install Robot Framework'
+    
+  - script: pip install robotframework-selenium2library
+    displayName: 'Install Selenium'
+
+  - script: npm install chromedriver
+    displayName: 'Install Chromedriver'
+
+  - script: |
+      pwd
+      ls
+      cd robot_test
+      robot *.test
+    displayName: 'Run Robot Framework tests'
+  
+  - script: |
+      pwd
+      rm log.html output.xml report.html selenium-screenshot-*.png
+      ls
+    displayName: 'Clean up'
