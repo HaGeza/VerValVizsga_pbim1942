@@ -4,7 +4,7 @@ trigger:
 jobs:
 - job: 'Robot_Test'
   pool:
-    vmImage: ubuntu-latest
+    vmImage: windows-latest
 
   steps:
   - script: pip install robotframework
@@ -17,14 +17,9 @@ jobs:
     displayName: 'Install Chromedriver'
 
   - script: |
-      pwd
-      ls
       cd robot_test
       robot *.test
     displayName: 'Run Robot Framework tests'
   
-  - script: |
-      pwd
-      rm log.html output.xml report.html selenium-screenshot-*.png
-      ls
+  - script: rm log.html output.xml report.html selenium-screenshot-*.png
     displayName: 'Clean up'
