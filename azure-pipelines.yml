@@ -17,27 +17,9 @@ jobs:
     displayName: 'Install Chromedriver'
 
   - script: |
-      pwd
-      ls
       cd robot_test
       robot *.test
     displayName: 'Run Robot Framework tests'
   
-  - script: |
-      pwd
-      rm log.html output.xml report.html selenium-screenshot-*.png
-      ls
+  - script: rm log.html output.xml report.html selenium-screenshot-*.png
     displayName: 'Clean up'
-
-# - job: 'Appium_Test'
-#   pool:
-#     vmImga: ubuntu-latest
-
-#   steps:
-#   - script: npm install appium -g
-#     displayName: 'Install Appium'
-
-#   - script: |
-#       wget https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
-#       unzip *.zip
-#     displayName: 'Install Android SDK'
