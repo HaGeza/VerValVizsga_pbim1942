@@ -21,5 +21,7 @@ jobs:
       robot *.test
     displayName: 'Run Robot Framework tests'
   
-  - script: rm log.html output.xml report.html selenium-screenshot-*.png
+  - script: |
+      cd robot_test
+      rm log.html output.xml report.html selenium-screenshot-*.png
     displayName: 'Clean up'
